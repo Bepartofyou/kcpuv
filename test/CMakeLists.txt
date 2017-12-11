@@ -47,8 +47,8 @@ if (MSVC)
 
   target_link_libraries(test_delay_client kcpuv)
 else ()
-	target_link_libraries(test_echo_client kcpuv pthread)
-	target_link_libraries(test_echo_server kcpuv pthread)
+	target_link_libraries(test_echo_client kcpuv -pthread rt)
+	target_link_libraries(test_echo_server kcpuv -pthread rt)
 
-  target_link_libraries(test_delay_client kcpuv pthread)
+  target_link_libraries(test_delay_client kcpuv -pthread rt)
 endif ()
