@@ -3,14 +3,14 @@
 
 static const int MAX_MSG_SIZE = 1024 * 64;
 
-struct MSG {
+struct MSGT {
 	uint64_t tick;
 	char data[MAX_MSG_SIZE];
 };
 
-static std::map<uint64_t, MSG> snd_msg_map;
+static std::map<uint64_t, MSGT> snd_msg_map;
 
-static int make_msg(uint64_t tick, MSG& msg, int size_min, int size_max) {
+static int make_msg(uint64_t tick, MSGT& msg, int size_min, int size_max) {
 	msg.tick = tick;
 	uint32_t size = (rand_u32() % (size_max - size_min + 1)) + size_min;
 	for (uint32_t i = 0; i < size; ++i) {
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 
 		uint64_t cur = get_tick_ms();
 		if (cur > nextSend) {
-			MSG& msg = snd_msg_map[cur];
+			MSGT& msg = snd_msg_map[cur];
 			memset(&msg, 0, sizeof(msg));
 			int size = make_msg(cur, msg, msg_size_min, msg_size_max);
 			if (size > 0) {
@@ -72,18 +72,30 @@ int main(int argc, char* argv[]) {
 			int r = kcpuv_recv(kcpuv, &msg);
 			if (r < 0) break;
 
-			MSG m;
+			MSGT m;
 			memset(&m, 0, sizeof(m));
 			memcpy(&m, msg.data, msg.size < sizeof(m) ? msg.size : sizeof(m));
 
-			std::map<uint64_t, MSG>::iterator it = snd_msg_map.find(m.tick);
+			std::map<uint64_t, MSGT>::iterator it = snd_msg_map.find(m.tick);
 			if (it == snd_msg_map.end()) {
+#if defined(PLATFORM_WINDOWS)
+				printf("msg not found %I64d\n", m.tick);
+#else
 				printf("msg not found %"PRIu64"\n", m.tick);
+#endif
 			} else {
 				if (memcmp(&it->second, &m, sizeof(m)) == 0) {
+#if defined(PLATFORM_WINDOWS)
+					printf("%I64d\n", now - m.tick);
+#else
 					printf("%"PRIu64"\n", now - m.tick);
+#endif
 				} else {
+#if defined(PLATFORM_WINDOWS)
+					printf("recved a diff msg %I64d\n", m.tick);
+#else
 					printf("recved a diff msg %"PRIu64"\n", m.tick);
+#endif
 				}
 			}
 		}

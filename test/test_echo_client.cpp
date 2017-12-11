@@ -27,7 +27,11 @@ int main() {
 		uint64_t cur = get_tick_ms();
 		if (cur > nextSend) {
 			char xxx[1024];
+#if defined(PLATFORM_WINDOWS)
+			sprintf(xxx, "tick - %I64d", cur);
+#else
 			sprintf(xxx, "tick - %"PRIu64, cur);
+#endif
 			kcpuv_send(kcpuv, conv, xxx, strlen(xxx));
 			nextSend = cur + 1000;
 		}

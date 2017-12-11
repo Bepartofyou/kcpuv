@@ -170,7 +170,7 @@ void Network::on_recv_udp(const char* buf, ssize_t size, const struct sockaddr* 
 	kcpuv_conv_t conv;
 	Conn* conn = NULL;
 
-	r = ikcp_get_conv(buf, (long)size, &conv);
+	r = ikcp_get_conv(buf, (long)size, (IUINT32 *)&conv);
 	PROC_ERR(r);
 	
 	if (conv == CONV_REQ_CONN) {
