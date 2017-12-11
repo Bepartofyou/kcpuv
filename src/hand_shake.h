@@ -5,6 +5,7 @@ const uint32_t CONV_REQ_CONN = 1;
 const uint32_t CONV_SND_CONV = 2;
 const uint32_t CONV_ACK_CONV = 3;
 const uint32_t CONV_ESTABLISHED = 4;
+const uint32_t CONV_RST_CONN = 5;
 
 const uint32_t CONV_RESERVED = 100;
 const uint32_t CONV_USER = CONV_RESERVED + 1;
