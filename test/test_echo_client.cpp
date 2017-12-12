@@ -52,7 +52,7 @@ int main() {
 			nextSend = get_tick_ms();
 		//}
 		//sleep_ms(1);
-		sleep_us(1);
+		sleep_us(20);
 	}
 	kcpuv_destroy(kcpuv);
 
