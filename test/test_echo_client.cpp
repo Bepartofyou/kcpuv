@@ -6,7 +6,7 @@ int main() {
 	//_CrtSetBreakAlloc(216);
 #endif
 
-#define  MAX_LEN 200 * 1024
+#define  MAX_LEN 150 * 1024
 	char* kcpmeg = new char[MAX_LEN];
 	for (size_t i = 0; i < MAX_LEN; i+=10)
 	{
@@ -52,7 +52,7 @@ int main() {
 			nextSend = get_tick_ms();
 		//}
 		//sleep_ms(1);
-		sleep_us(20);
+		sleep_us(50);
 	}
 	kcpuv_destroy(kcpuv);
 
