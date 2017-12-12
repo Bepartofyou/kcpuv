@@ -26,7 +26,7 @@ int main() {
 	//_CrtSetBreakAlloc(216);
 #endif
 
-#define  MAX_LEN 20 * 1024
+#define  MAX_LEN 2 * 1024
 	char* kcpmeg = new char[MAX_LEN];
 	for (size_t i = 0; i < MAX_LEN; i+=10)
 	{
