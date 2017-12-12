@@ -19,7 +19,6 @@ static uint64_t gCount_last = 0;
 static int on_kcp_output(const char* buf, int len, struct IKCPCB* kcp, void* user) {
 	Conn* conn = (Conn*)user;
 	gCount += len;
-	gCount_last = gCount;
 	return conn->send_udp(buf, len);
 }
 
@@ -168,6 +167,7 @@ int Conn::run(uint64_t tick) {
 			gTime = get_tick_ms();
 			int buflen = ikcp_waitsnd(_kcp);
 			printf("real kBps: %d\n", (gCount - gCount_last) / 1000);
+			gCount_last = gCount;
 			printf("kcp buffer len: %d, nsnd_buf: %d,nsnd_que: %d,rmt_wnd: %d\n", buflen, _kcp->nsnd_buf, _kcp->nsnd_que, _kcp->rmt_wnd);
 			printf("conv: %d,mtu: %d,mss: %d,state: %d, ts_recent: %d,ts_lastack: %d,ssthresh: %d, \
 					rx_rttval: %d,rx_srtt: %d,rx_rto: %d,rx_minrto: %d, snd_wnd: %d,rcv_wnd: %d,rmt_wnd: %d,cwnd: %d,\n",
