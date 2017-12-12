@@ -1,5 +1,25 @@
 #include "test_common.cpp"
 
+static uint64_t ggTime = 0;
+static uint64_t ggCount = 0;
+static uint64_t ggCount_last = 0;
+
+
+
+void check() {
+	if (ggTime == 0) {
+		ggTime = get_tick_ms();
+	}
+	else {
+		if (get_tick_ms() - ggTime > 1000) {
+			ggTime = get_tick_ms();
+
+			printf("data kBps: %d\n", (ggCount - ggCount_last) / 1000);
+			ggCount_last = ggCount;
+		}
+	}
+}
+
 int main() {
 #if defined(PLATFORM_WINDOWS) && defined(_DEBUG)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -12,7 +32,6 @@ int main() {
 	{
 		sprintf(kcpmeg+i, "tick-%05d", i);
 	}
-
 
 	kcpuv_t kcpuv = kcpuv_create();
 	kcpuv_conv_t conv = kcpuv_connect(kcpuv, "192.168.56.128", 9527);
@@ -42,6 +61,7 @@ int main() {
 			sprintf(xxx, "tick - %"PRIu64, cur);
 #endif
 			//kcpuv_send(kcpuv, conv, xxx, strlen(xxx));
+			ggCount += strlen(kcpmeg);
 			kcpuv_send(kcpuv, conv, kcpmeg, strlen(kcpmeg));
 			//printf("11111111111111\n");
 			//nextSend = cur + 1000;
@@ -51,6 +71,7 @@ int main() {
 			}
 			nextSend = get_tick_ms();
 		//}
+			check();
 		sleep_ms(1);
 		//sleep_us(50);
 	}

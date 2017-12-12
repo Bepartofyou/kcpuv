@@ -13,8 +13,12 @@ struct send_req_s {
 	uv_buf_t buf;
 };
 
+static uint64_t gCount = 0;
+static uint64_t gCount_last = 0;
+
 static int on_kcp_output(const char* buf, int len, struct IKCPCB* kcp, void* user) {
 	Conn* conn = (Conn*)user;
+	gCount += len;
 	return conn->send_udp(buf, len);
 }
 
@@ -47,8 +51,8 @@ int Conn::init_kcp(kcpuv_conv_t conv) {
 	_kcp->output = on_kcp_output;
 
 	//r = ikcp_nodelay(_kcp, 1, 10, 2, 1);
-	//r = ikcp_nodelay(_kcp, 1, 1, 2, 1);
-	r = ikcp_nodelay(_kcp, 0, 1, 0, 1);
+	r = ikcp_nodelay(_kcp, 1, 1, 2, 1);
+	//r = ikcp_nodelay(_kcp, 0, 1, 0, 1);
 	PROC_ERR(r);
 	// wnd
 	r = ikcp_wndsize(_kcp, 65535, 65535);
@@ -162,6 +166,7 @@ int Conn::run(uint64_t tick) {
 		if (get_tick_ms() - gTime > 1000) {
 			gTime = get_tick_ms();
 			int buflen = ikcp_waitsnd(_kcp);
+			printf("real kBps: %d\n", (gCount - gCount_last) / 1000);
 			printf("kcp buffer len: %d, nsnd_buf: %d,nsnd_que: %d,rmt_wnd: %d\n", buflen, _kcp->nsnd_buf, _kcp->nsnd_que, _kcp->rmt_wnd);
 			printf("conv: %d,mtu: %d,mss: %d,state: %d, ts_recent: %d,ts_lastack: %d,ssthresh: %d, \
 					rx_rttval: %d,rx_srtt: %d,rx_rto: %d,rx_minrto: %d, snd_wnd: %d,rcv_wnd: %d,rmt_wnd: %d,cwnd: %d,\n",
