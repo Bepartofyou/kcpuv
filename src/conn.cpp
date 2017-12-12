@@ -50,7 +50,7 @@ int Conn::init_kcp(kcpuv_conv_t conv) {
 	r = ikcp_nodelay(_kcp, 1, 1, 2, 1);
 	PROC_ERR(r);
 	// wnd
-	r = ikcp_wndsize(_kcp, 8192000, 8192000);
+	r = ikcp_wndsize(_kcp, 65535, 65535);
 	PROC_ERR(r);
 
 	_conv = conv;
