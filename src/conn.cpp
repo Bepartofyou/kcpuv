@@ -51,11 +51,11 @@ int Conn::init_kcp(kcpuv_conv_t conv) {
 	_kcp->output = on_kcp_output;
 
 	//r = ikcp_nodelay(_kcp, 1, 10, 2, 1);
-	r = ikcp_nodelay(_kcp, 1, 10, 2, 1);
+	r = ikcp_nodelay(_kcp, 0, 30, 2, 1);
 	//r = ikcp_nodelay(_kcp, 0, 1, 0, 1);
 	PROC_ERR(r);
 	// wnd
-	r = ikcp_wndsize(_kcp, 2048, 2048);
+	r = ikcp_wndsize(_kcp, 1024, 1024);
 	PROC_ERR(r);
 
 	_conv = conv;
