@@ -1257,6 +1257,13 @@ int ikcp_waitsnd(const ikcpcb* kcp) {
 	return kcp->nsnd_buf + kcp->nsnd_que;
 }
 
+int ikcp_waitsnd_b(const ikcpcb* kcp) {
+	return kcp->nsnd_buf;
+}
+
+int ikcp_waitsnd_q(const ikcpcb* kcp) {
+	return kcp->nsnd_que;
+}
 
 // get conv from packet
 int ikcp_get_conv(const char* data, long size, IUINT32* conv_out) {

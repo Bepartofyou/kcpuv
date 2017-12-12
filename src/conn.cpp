@@ -160,7 +160,7 @@ int Conn::run(uint64_t tick) {
 		if (get_tick_ms() - gTime > 1000) {
 			gTime = get_tick_ms();
 			int buflen = ikcp_waitsnd(_kcp);
-			printf("kcp buffer len: %d\n", buflen);
+			printf("kcp buffer len: %d,%d,%d\n", buflen, ikcp_waitsnd_b(_kcp), ikcp_waitsnd_q(_kcp));
 		}
 	}
 
