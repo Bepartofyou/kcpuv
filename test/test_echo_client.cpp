@@ -45,7 +45,7 @@ int main() {
 			//printf("11111111111111\n");
 			nextSend = cur + 1000;
 		//}
-		sleep_ms(1);
+		sleep_ms(0.001);
 	}
 	kcpuv_destroy(kcpuv);
 
