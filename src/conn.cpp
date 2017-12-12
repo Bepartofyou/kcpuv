@@ -5,7 +5,8 @@
 #include "tm.h"
 
 static const uint64_t CONN_EXPIRED_TIMEOUT = 30 * 1000;
-static const uint32_t MAX_SEND_KCP_SIZE = 64 * 1024;
+//static const uint32_t MAX_SEND_KCP_SIZE = 64 * 1024;
+static const uint32_t MAX_SEND_KCP_SIZE = 300 * 1024;
 
 struct send_req_s {
 	uv_udp_send_t req;
@@ -46,6 +47,9 @@ int Conn::init_kcp(kcpuv_conv_t conv) {
 	_kcp->output = on_kcp_output;
 
 	r = ikcp_nodelay(_kcp, 1, 10, 2, 1);
+	PROC_ERR(r);
+	// wnd
+	r = ikcp_wndsize(_kcp, 512, 512);
 	PROC_ERR(r);
 
 	_conv = conv;

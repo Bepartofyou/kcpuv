@@ -6,7 +6,7 @@ int main() {
 	//_CrtSetBreakAlloc(216);
 #endif
 
-#define  MAX_LEN 40000
+#define  MAX_LEN 300 * 1024
 	char* kcpmeg = new char[MAX_LEN];
 	for (size_t i = 0; i < MAX_LEN; i+=10)
 	{
@@ -26,7 +26,7 @@ int main() {
 			int r = kcpuv_recv(kcpuv, &msg);
 			if (r < 0) break;
 
-			char buf[65535] = { 0 };
+			char buf[MAX_LEN] = { 0 };
 			strncpy(buf, (const char*)msg.data, msg.size);
 			//printf("conv: %d recv: %s\n", msg.conv, buf);
 			kcpuv_msg_free(&msg);
@@ -34,7 +34,7 @@ int main() {
 
 		uint64_t cur = get_tick_ms();
 		//if (cur > nextSend) {
-			char xxx[65535];
+			char xxx[MAX_LEN];
 #if defined(PLATFORM_WINDOWS)
 			sprintf(xxx, "tick - %I64d", cur);
 #else

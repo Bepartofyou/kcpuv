@@ -17,7 +17,7 @@ int main() {
 			int r = kcpuv_recv(kcpuv, &msg);
 			if (r < 0) break;
 
-			char buf[65535] = { 0 };
+			char buf[300 * 1024] = { 0 };
 			strncpy(buf, (const char*)msg.data, msg.size);
 		//	printf("conv: %d recv: %s\n", msg.conv, buf);
 			strcpy(buf + msg.size, " - reply");
