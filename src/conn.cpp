@@ -19,6 +19,7 @@ static uint64_t gCount_last = 0;
 static int on_kcp_output(const char* buf, int len, struct IKCPCB* kcp, void* user) {
 	Conn* conn = (Conn*)user;
 	gCount += len;
+	gCount_last = gCount;
 	return conn->send_udp(buf, len);
 }
 
