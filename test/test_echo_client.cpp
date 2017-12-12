@@ -47,7 +47,7 @@ int main() {
 			//nextSend = cur + 1000;
 			int diff = get_tick_ms() - nextSend;
 			if (diff > 10){
-				printf("send intreval: %d\n",diff);
+			//	printf("send intreval: %d\n",diff);
 			}
 			nextSend = get_tick_ms();
 		//}
