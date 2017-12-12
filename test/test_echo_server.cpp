@@ -21,7 +21,7 @@ int main() {
 			strncpy(buf, (const char*)msg.data, msg.size);
 		//	printf("conv: %d recv: %s\n", msg.conv, buf);
 			strcpy(buf + msg.size, " - reply");
-		//	kcpuv_send(kcpuv, msg.conv, buf, strlen(buf));
+			kcpuv_send(kcpuv, msg.conv, buf, strlen(buf));
 			kcpuv_msg_free(&msg);
 		}
 		//sleep_ms(1);

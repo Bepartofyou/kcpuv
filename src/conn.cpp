@@ -149,7 +149,21 @@ void Conn::alive() {
 	_conv_expired_tick = get_tick_ms() + CONN_EXPIRED_TIMEOUT;
 }
 
+static uint64_t gTime = 0;
+
 int Conn::run(uint64_t tick) {
+
+	if (gTime == 0) {
+		gTime = get_tick_ms();
+	}
+	else {
+		if (get_tick_ms() - gTime > 1000) {
+			gTime = get_tick_ms();
+			int buflen = ikcp_waitsnd(_kcp);
+			printf("kcp buffer len: %d\n", buflen);
+		}
+	}
+
 	ikcp_update(_kcp, (uint32_t)tick);
 
 	int msg_cnt = 0;
