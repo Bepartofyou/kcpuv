@@ -42,6 +42,14 @@ static uint64_t get_tick_ms() {
 	return get_tick_us() / 1000;
 }
 
+static void sleep_us(uint64_t us) {
+#if defined(PLATFORM_WINDOWS)
+	Sleep((float)(DWORD)us/(float)us);
+#elif defined(PLATFORM_LINUX) || defined(PLATFORM_MACOS)
+	usleep(us);
+#endif
+}
+
 static void sleep_ms(uint64_t ms) {
 #if defined(PLATFORM_WINDOWS)
 	Sleep((DWORD)ms);
