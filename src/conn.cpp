@@ -161,7 +161,13 @@ int Conn::run(uint64_t tick) {
 		if (get_tick_ms() - gTime > 1000) {
 			gTime = get_tick_ms();
 			int buflen = ikcp_waitsnd(_kcp);
-			printf("kcp buffer len: %d,%d,%d\n", buflen, ikcp_waitsnd_b(_kcp), ikcp_waitsnd_q(_kcp));
+			printf("kcp buffer len: %d, nsnd_buf: %d,nsnd_que: %d,rmt_wnd: %d, conv: %d,mtu: %d,mss: %d,state: %d, ts_recent: %d,ts_lastack: %d,ssthresh: %d, \
+					rx_rttval: %d,rx_srtt: %d,rx_rto: %d,rx_minrto: %d, snd_wnd: %d,rcv_wnd: %d,rmt_wnd: %d,cwnd: %d,\n",
+				buflen, _kcp->nsnd_buf, _kcp->nsnd_que,_kcp->rmt_wnd, 
+				_kcp->conv,_kcp->mtu,_kcp->mss,_kcp->state,
+				_kcp->ts_recent, _kcp->ts_lastack, _kcp->ssthresh,
+				_kcp->rx_rttval, _kcp->rx_srtt, _kcp->rx_rto, _kcp->rx_minrto, 
+				_kcp->snd_wnd, _kcp->rcv_wnd, _kcp->rmt_wnd, _kcp->cwnd);
 		}
 	}
 
