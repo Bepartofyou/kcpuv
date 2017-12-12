@@ -17,7 +17,8 @@ int main() {
 	kcpuv_t kcpuv = kcpuv_create();
 	kcpuv_conv_t conv = kcpuv_connect(kcpuv, "192.168.56.128", 9527);
 	uint64_t t = get_tick_ms();
-	uint64_t nextSend = t + 1000;
+	//uint64_t nextSend = t + 1000;
+	uint64_t nextSend = t;
 	while (get_tick_ms() - t < 15000000) {
 		kcpuv_run(kcpuv);
 
@@ -43,7 +44,12 @@ int main() {
 			//kcpuv_send(kcpuv, conv, xxx, strlen(xxx));
 			kcpuv_send(kcpuv, conv, kcpmeg, strlen(kcpmeg));
 			//printf("11111111111111\n");
-			nextSend = cur + 1000;
+			//nextSend = cur + 1000;
+			int diff = get_tick_ms() - nextSend;
+			if (diff > 2){
+				printf("send intreval: %d\n",diff);
+			}
+			nextSend = get_tick_ms();
 		//}
 		//sleep_ms(1);
 		sleep_us(1);
