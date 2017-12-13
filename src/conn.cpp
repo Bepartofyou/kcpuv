@@ -73,6 +73,9 @@ void Conn::shutdown() {
 void Conn::on_recv_udp(const char* buf, ssize_t size, const struct sockaddr* addr) {
 	_addr = *addr;
 	ikcp_input(_kcp, buf, (long)size);
+
+	_kcp->current = get_tick_ms();
+	ikcp_flush(_kcp);
 }
 
 int Conn::recv_kcp(char*& buf, uint32_t& size) {
