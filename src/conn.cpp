@@ -146,7 +146,10 @@ int Conn::send_kcp(const char* buf, uint32_t len) {
 	memcpy(tmp + sizeof(header), buf, len);
 
 	int size = ikcp_send(_kcp, tmp, len + sizeof(header));
-	ikcp_update(_kcp, (uint32_t)get_tick_ms());
+
+	//update
+	_kcp->current = (uint32_t)get_tick_ms();
+	ikcp_flush(_kcp);
 
 	return size;
 }
