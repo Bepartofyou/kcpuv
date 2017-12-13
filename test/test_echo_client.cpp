@@ -39,6 +39,15 @@ int main() {
 	//uint64_t nextSend = t + 1000;
 	uint64_t nextSend = t;
 	while (get_tick_ms() - t < 15000000) {
+		//kcpuv_run(kcpuv);
+
+		uint64_t cur = get_tick_ms();
+		ggCount += strlen(kcpmeg);
+		kcpuv_send(kcpuv, conv, kcpmeg, strlen(kcpmeg));
+		nextSend = get_tick_ms();
+
+		check();
+		
 		kcpuv_run(kcpuv);
 
 		kcpuv_msg_t msg;
@@ -51,29 +60,6 @@ int main() {
 			//printf("conv: %d recv: %s\n", msg.conv, buf);
 			kcpuv_msg_free(&msg);
 		}
-
-		uint64_t cur = get_tick_ms();
-		//if (cur > nextSend) {
-			char xxx[MAX_LEN];
-#if defined(PLATFORM_WINDOWS)
-			sprintf(xxx, "tick - %I64d", cur);
-#else
-			sprintf(xxx, "tick - %"PRIu64, cur);
-#endif
-			//kcpuv_send(kcpuv, conv, xxx, strlen(xxx));
-			ggCount += strlen(kcpmeg);
-			kcpuv_send(kcpuv, conv, kcpmeg, strlen(kcpmeg));
-			//printf("11111111111111\n");
-			//nextSend = cur + 1000;
-			int diff = get_tick_ms() - nextSend;
-			if (diff > 10){
-			//	printf("send intreval: %d\n",diff);
-			}
-			nextSend = get_tick_ms();
-		//}
-			check();
-		sleep_ms(1);
-		//sleep_us(50);
 	}
 	kcpuv_destroy(kcpuv);
 

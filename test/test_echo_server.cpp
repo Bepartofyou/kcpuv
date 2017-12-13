@@ -25,7 +25,7 @@ int main() {
 			kcpuv_msg_free(&msg);
 		}
 		//sleep_ms(1);
-		sleep_us(1);
+		//sleep_us(1);
 	}
 	kcpuv_destroy(kcpuv);
 	return 0;
