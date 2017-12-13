@@ -170,7 +170,7 @@ int Conn::run(uint64_t tick) {
 		if (get_tick_ms() - gTime > 1000) {
 			gTime = get_tick_ms();
 			int buflen = ikcp_waitsnd(_kcp);
-			printf("real kBps: %d\n", (gCount - gCount_last) / 1000);
+			//printf("real kBps: %d\n", (gCount - gCount_last) / 1000);
 			gCount_last = gCount;
 			printf("[kcpinfo] rmt_wnd:%-4d,cwnd:%-4d,nsnd_buf:%-8d,nsnd_que:%-8d,nrcv_buf:%-8d,nrcv_que:%-8d,rx_rttval:%-2d,rx_srtt:%-2d,rx_rto:%-2d,rx_minrto:%-2d\n",
 				_kcp->rmt_wnd, _kcp->cwnd, _kcp->nsnd_buf, _kcp->nsnd_que, _kcp->nrcv_buf, _kcp->nrcv_que,

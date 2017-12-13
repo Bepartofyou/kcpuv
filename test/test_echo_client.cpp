@@ -14,7 +14,7 @@ void check() {
 		if (get_tick_ms() - ggTime > 1000) {
 			ggTime = get_tick_ms();
 
-			printf("data kBps: %d\n", (ggCount - ggCount_last) / 1000);
+			//printf("data kBps: %d\n", (ggCount - ggCount_last) / 1000);
 			ggCount_last = ggCount;
 		}
 	}
