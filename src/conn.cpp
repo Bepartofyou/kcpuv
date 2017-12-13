@@ -168,13 +168,9 @@ int Conn::run(uint64_t tick) {
 			int buflen = ikcp_waitsnd(_kcp);
 			printf("real kBps: %d\n", (gCount - gCount_last) / 1000);
 			gCount_last = gCount;
-			printf("kcp buffer len: %d, nsnd_buf: %d,nsnd_que: %d,rmt_wnd: %d\n", buflen, _kcp->nsnd_buf, _kcp->nsnd_que, _kcp->rmt_wnd);
-			printf("conv: %d,mtu: %d,mss: %d,state: %d, ts_recent: %d,ts_lastack: %d,ssthresh: %d, \
-					rx_rttval: %d,rx_srtt: %d,rx_rto: %d,rx_minrto: %d, snd_wnd: %d,rcv_wnd: %d,rmt_wnd: %d,cwnd: %d,\n",
-				_kcp->conv,_kcp->mtu,_kcp->mss,_kcp->state,
-				_kcp->ts_recent, _kcp->ts_lastack, _kcp->ssthresh,
-				_kcp->rx_rttval, _kcp->rx_srtt, _kcp->rx_rto, _kcp->rx_minrto, 
-				_kcp->snd_wnd, _kcp->rcv_wnd, _kcp->rmt_wnd, _kcp->cwnd);
+			printf("[kcpinfo] rmt_wnd:%-4d,cwnd:%-4d,nsnd_buf:%-8d,nsnd_que:%-8d,nrcv_buf:%-8d,nrcv_que:%-8d,rx_rttval:%-2d,rx_srtt:%-2d,rx_rto:%-2d,rx_minrto:%-2d\n",
+				_kcp->rmt_wnd, _kcp->cwnd, _kcp->nsnd_buf, _kcp->nsnd_que, _kcp->nrcv_buf, _kcp->nrcv_que,
+				_kcp->rx_rttval, _kcp->rx_srtt, _kcp->rx_rto, _kcp->rx_minrto);
 		}
 	}
 
@@ -197,6 +193,8 @@ int Conn::run(uint64_t tick) {
 		}
 
 		msg_cnt++;
+
+		ikcp_update(_kcp, (uint32_t)get_tick_ms());
 	}
 
 	if (msg_cnt > 0) {
