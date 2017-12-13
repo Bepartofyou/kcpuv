@@ -144,7 +144,11 @@ int Conn::send_kcp(const char* buf, uint32_t len) {
 	header.key = _key;
 	memcpy(tmp, &header, sizeof(header));
 	memcpy(tmp + sizeof(header), buf, len);
-	return ikcp_send(_kcp, tmp, len + sizeof(header));
+
+	int size = ikcp_send(_kcp, tmp, len + sizeof(header));
+	ikcp_update(_kcp, (uint32_t)get_tick_ms());
+
+	return size;
 }
 
 int Conn::expired() {
